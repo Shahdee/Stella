@@ -17,7 +17,7 @@ public class BlockView : MonoBehaviour
 
     private bool _shown = false;
 
-    public void Initialize(IBlockModel model, Sprite objectSprite)
+    public void Initialize(IBlockModel model)
     {
         _blockModel = model;
 

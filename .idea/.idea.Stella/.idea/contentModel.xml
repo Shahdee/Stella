@@ -2,10 +2,17 @@
 <project version="4">
   <component name="ContentModelStore">
     <e p="$PROJECT_DIR$" t="IncludeRecursive">
-      <e p="Assembly-CSharp-Editor.csproj" t="IncludeRecursive" />
+      <e p="Assembly-CSharp-Editor-firstpass.csproj" t="IncludeRecursive" />
       <e p="Assembly-CSharp.csproj" t="IncludeRecursive" />
       <e p="Assets" t="Include">
         <e p="Plugins" t="Include">
+          <e p="Skybox Shaders" t="Include">
+            <e p="Editor" t="Include">
+              <e p="GradientSkyboxInspector.cs" t="Include" />
+              <e p="HorizonWithSunSkyboxInspector.cs" t="Include" />
+              <e p="RgbmCubedSkyboxInspector.cs" t="Include" />
+            </e>
+          </e>
           <e p="Zenject" t="Include">
             <e p="LICENSE.txt" t="Include" />
             <e p="OptionalExtras" t="Include">
@@ -604,6 +611,9 @@
           <e p="Level" t="Include">
             <e p="Interfaces" t="Include">
               <e p="ILevelController.cs" t="Include" />
+              <e p="ILevelDataProvider.cs" t="Include" />
+              <e p="ILevelDataSaverLoader.cs" t="Include" />
+              <e p="ILevelDataSerializer.cs" t="Include" />
               <e p="ILevelInputController.cs" t="Include" />
               <e p="ILevelModel.cs" t="Include" />
               <e p="ILevelView.cs" t="Include" />
@@ -611,6 +621,9 @@
             </e>
             <e p="LevelController.cs" t="Include" />
             <e p="LevelData.cs" t="Include" />
+            <e p="LevelDataProvider.cs" t="Include" />
+            <e p="LevelDataSaverLoader.cs" t="Include" />
+            <e p="LevelDataSerializer.cs" t="Include" />
             <e p="LevelInputController.cs" t="Include" />
             <e p="LevelInstaller.cs" t="Include" />
             <e p="LevelModel.cs" t="Include" />
@@ -641,17 +654,6 @@
               <e p="MainWindowView.cs" t="Include" />
             </e>
           </e>
-        </e>
-        <e p="Skybox Shaders" t="Include">
-          <e p="Editor" t="Include">
-            <e p="GradientSkyboxInspector.cs" t="Include" />
-            <e p="HorizonWithSunSkyboxInspector.cs" t="Include" />
-            <e p="RgbmCubedSkyboxInspector.cs" t="Include" />
-          </e>
-          <e p="Gradient Skybox.shader" t="Include" />
-          <e p="Horizon With Sun Skybox.shader" t="Include" />
-          <e p="Horizontal Skybox.shader" t="Include" />
-          <e p="RGBM Cubed Skybox.shader" t="Include" />
         </e>
         <e p="TextMesh Pro" t="Include">
           <e p="Fonts" t="Include">

@@ -1,22 +1,24 @@
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 
-public class LevelData
+namespace Level
 {
-    public int StartLevel => _startLevel;
-
-    private int _startLevel;
-    
-    public LevelData(int startLevel)
+    [Serializable]
+    public class LevelData
     {
-        _startLevel = startLevel;
-    }
-    
-    
-    // next 
-    // current level data 
+        public List<Vector3Int> BlockPositions => _blockPositions;
+        public int LevelId => _levelId;
+
+        [SerializeField] private List<Vector3Int> _blockPositions;
+        [SerializeField] private int _levelId;
+
+
+        // next 
+        // current level data 
         // level characters 
-            // initial character position
-            // character type 
+        // initial character position
+        // character type 
         // exit position 
+    }
 }

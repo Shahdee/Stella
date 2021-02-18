@@ -2,18 +2,21 @@ using System.Collections.Generic;
 using System;
 using UnityEngine;
 
-public interface ILevelModel
+namespace Level
 {
-    event Action<IBlockModel> OnBlockPut;
-    event Action<IBlockModel> OnBlockDestroy;
-    event Action OnAllBlocksDestroy;
+    public interface ILevelModel
+    {
+        event Action<IBlockModel> OnBlockPut;
+        event Action<IBlockModel> OnBlockDestroy;
+        event Action OnAllBlocksDestroy;
 
-    int CurrentLevel { get; }
+        int CurrentLevel { get; }
 
-    void Initialize(LevelData levelData);
-    void PutBlock(IBlockModel blockModel);
-    void DestroyAllBlocks();
-    IBlockModel GetBlock(Vector3Int position);
+        void Initialize(LevelData levelData);
+        void PutBlock(IBlockModel blockModel);
+        void DestroyAllBlocks();
+        IBlockModel GetBlock(Vector3Int position);
 
-    void AdvanceLevel();
+        void AdvanceLevel();
+    }
 }

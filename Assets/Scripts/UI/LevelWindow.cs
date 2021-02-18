@@ -1,5 +1,6 @@
 using UI.Views;
 using Zenject;
+using Level;
 
 namespace UI
 {
@@ -8,7 +9,7 @@ namespace UI
         public override EWindowType WindowType => EWindowType.Level;
         
         private readonly LazyInject<LevelWindowView> _view;
-        private readonly ILevelModel _levelModel;
+        private readonly ILevelModel _levelModel; // TODO I should use level controller to get current level 
 
         public LevelWindow(LazyInject<LevelWindowView> view,
                             ILevelModel levelModel)

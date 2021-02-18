@@ -12,6 +12,10 @@ namespace Level
             Container.BindInterfacesTo<LevelViewController>().AsSingle();
             Container.BindInterfacesTo<LevelModel>().AsSingle();
             Container.BindInterfacesTo<LevelInputController>().AsSingle().NonLazy();
+
+            Container.BindInterfacesTo<LevelDataSerializer>().AsSingle();
+            Container.BindInterfacesTo<LevelDataProvider>().AsSingle();
+            Container.BindInterfacesTo<LevelDataSaverLoader>().AsSingle();
         }
     }
 }
