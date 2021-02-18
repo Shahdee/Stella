@@ -13,7 +13,7 @@ public interface ILevelModel
     void Initialize(LevelData levelData);
     void PutBlock(IBlockModel blockModel);
     void DestroyAllBlocks();
-    IBlockModel GetBlock(Vector2Int position);
+    IBlockModel GetBlock(Vector3Int position);
 
     void AdvanceLevel();
 }

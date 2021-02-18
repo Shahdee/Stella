@@ -5,5 +5,5 @@ using UnityEngine;
 
 public interface IBlockModelFactory
 {
-    IBlockModel CreateBlock(Vector2Int position);
+    IBlockModel CreateBlock(Vector3Int position);
 }

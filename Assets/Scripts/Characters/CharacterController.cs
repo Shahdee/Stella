@@ -7,11 +7,10 @@ namespace Characters
     {
         public ECharacterType CharacterType => _characterType;
 
-        private const float MovingSpeed = 5; // unit/sec
-        private const float SpeedDecrease = 0.1f; // %
-        
         private CharacterView _view;
         private ECharacterType _characterType;
+        private float _velocityDecrease;
+        private bool _stopping;
 
         public CharacterController(ECharacterType characterType,
                                     CharacterView view)
@@ -33,27 +32,9 @@ namespace Characters
             }
         }
 
-        public void Jump(float direction)
-        {
-            
-        }
+        public void Jump() => _view.Jump();
 
-        public void Move(float direction)
-        {
-            var currentVelocity = _view.Velocity;
-            
-            if (direction > 0 || direction < 0)
-                currentVelocity.x = Mathf.Sign(direction) * MovingSpeed;
-            else
-            {
-                Debug.Log(currentVelocity);
-                
-                if (currentVelocity.x > 0)
-                    currentVelocity.x = Mathf.Max(0, currentVelocity.x - MovingSpeed * SpeedDecrease);
-            }
-            
-            _view.SetVelocity(currentVelocity);
-        }
+        public void Move(float direction) => _view.Move(direction);
 
         public void Teleport(Vector3 position)
         {

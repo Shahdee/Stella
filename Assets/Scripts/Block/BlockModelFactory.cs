@@ -10,7 +10,7 @@ public class BlockModelFactory : IBlockModelFactory
       
    }
 
-   public IBlockModel CreateBlock(Vector2Int position)
+   public IBlockModel CreateBlock(Vector3Int position)
    {
       return new BlockModel(position);
    }

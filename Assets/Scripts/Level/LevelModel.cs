@@ -54,7 +54,7 @@ public class LevelModel : ILevelModel
         _blockModels.Clear();
     }
 
-    public IBlockModel GetBlock(Vector2Int position)
+    public IBlockModel GetBlock(Vector3Int position)
     {
         var block = _blockModels.FirstOrDefault(b => b.Position.x == position.x && b.Position.y == position.y);
         return block;
@@ -71,6 +71,7 @@ public class LevelModel : ILevelModel
         blockModel.OnDestroy -= BlockDestroy;
 
         _blockModels.Remove(blockModel);
+        OnBlockDestroy?.Invoke(blockModel);
         
         if (! _blockModels.Any())
             OnAllBlocksDestroy?.Invoke();

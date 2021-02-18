@@ -8,6 +8,6 @@ public interface IBlockModel
     EBlockType BlockType { get; }
     
     Color BlockColor { get; }
-    Vector2Int Position { get; }
+    Vector3Int Position { get; }
     void Destroy();
 }

@@ -7,34 +7,18 @@ public class PCInputController : AbstractInputController
 {
     private const string Vertical = "Vertical";
     private const string Horizontal = "Horizontal";
-    
+
     private DateTime _quickTouchCurrTime;
     private Vector3 _touchCurrPosition;
 
     private bool _horizontalInProgress;
+    private bool _horizontalFinish;
     private bool _verticalInProgress;
     private Vector2 _arrowDirection = new Vector2(); 
 
-    public override float GetHorizontalAxis()
-    {
-        if (!_enabled)
-            return 0;
-        
-        return UnityEngine.Input.GetAxis("Horizontal");
-
-    }
-
-    public override float GetVerticalAxis()
-    {
-        if (!_enabled)
-            return 0;
-        
-        return UnityEngine.Input.GetAxis("Vertical");
-    }
-
     protected override void UpdateInput()
     {
-        UpdateKeyboard();
+        UpdateAxis();
         
         UpdateMouse();
     }
@@ -70,29 +54,37 @@ public class PCInputController : AbstractInputController
         }
     }
 
-    private void UpdateKeyboard()
+    private void UpdateButtons()
     {
-        if (UnityEngine.Input.GetButton("Horizontal"))
+        
+    }
+
+    private void UpdateAxis()
+    {
+        if (UnityEngine.Input.GetButton(Horizontal))
         {
             if (!_horizontalInProgress)
             {
-                _horizontalInProgress = true;
-                Debug.Log("Horizontal down");
-
-                _arrowDirection.x = UnityEngine.Input.GetAxis("Horizontal");
-                
-                ArrowDown(_arrowDirection);
+                // Debug.LogWarning("H down " + UnityEngine.Input.GetAxis(Horizontal));
             }
+            
+            _horizontalInProgress = true;
+            
+            var h = UnityEngine.Input.GetAxis(Horizontal);
+            _arrowDirection.x = h;
+            AxisHold(_arrowDirection);
         }
         else
         {
             if (_horizontalInProgress)
             {
-                Debug.Log("Horizontal up");
-                _horizontalInProgress = false;
-
+                // Debug.LogWarning("H up " + UnityEngine.Input.GetAxis(Horizontal));
                 
-                ArrowUp(_arrowDirection);
+                _horizontalInProgress = false;
+                
+                var h = UnityEngine.Input.GetAxis(Horizontal);
+                _arrowDirection.x = h;
+                AxisRelease(_arrowDirection);
             }
         }
     }

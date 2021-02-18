@@ -602,10 +602,13 @@
             <e p="TouchContoller.cs" t="Include" />
           </e>
           <e p="Level" t="Include">
-            <e p="ILevelController.cs" t="Include" />
-            <e p="ILevelModel.cs" t="Include" />
-            <e p="ILevelView.cs" t="Include" />
-            <e p="ILevelViewController.cs" t="Include" />
+            <e p="Interfaces" t="Include">
+              <e p="ILevelController.cs" t="Include" />
+              <e p="ILevelInputController.cs" t="Include" />
+              <e p="ILevelModel.cs" t="Include" />
+              <e p="ILevelView.cs" t="Include" />
+              <e p="ILevelViewController.cs" t="Include" />
+            </e>
             <e p="LevelController.cs" t="Include" />
             <e p="LevelData.cs" t="Include" />
             <e p="LevelInputController.cs" t="Include" />

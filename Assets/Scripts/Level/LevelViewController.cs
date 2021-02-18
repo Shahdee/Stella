@@ -27,25 +27,14 @@ public class LevelViewController : ILevelViewController, IDisposable
         _levelModel.OnBlockDestroy += BlockDestroy;
     }
 
+    public Vector3Int WorldToCell(Vector3 position) => _levelView.GetTilePosition(position);
 
-    
-    public Vector2Int TransformPosition(Vector3 worldPosition)
-    {
-        var localPosition = _levelView.BlockParent.InverseTransformPoint(worldPosition);
-
-        return new Vector2Int()
-        {
-            x = Mathf.RoundToInt(localPosition.x / BlockWidth),
-            y = Mathf.RoundToInt(localPosition.y / BlockHeight)
-        };
-    }
-    
     public Vector3 TransformPosition(Vector2Int position)
     {
         return new Vector3()
         {
-            x = position.x * BlockWidth + BlockWidth/2,
-            y = position.y * BlockHeight + BlockHeight/2,
+            x = position.x * BlockWidth  + BlockWidth/2,
+            y = position.y * BlockHeight  + BlockHeight/2
         };
     }
 
@@ -59,24 +48,14 @@ public class LevelViewController : ILevelViewController, IDisposable
 
     private void BlockPut(IBlockModel blockModel)
     {
-        var blockView = _blockViewFactory.CreateBlock(blockModel);
-        
-        _blocks[blockModel] = blockView;
-        blockView.SetParent(_levelView.BlockParent);
-
-        var position = _levelView.BlockParent.TransformPoint(TransformPosition(blockModel.Position));
-        
-        blockView.SetPosition(position);
+        _levelView.SetTile(blockModel.Position);
     } 
     
     private void BlockDestroy(IBlockModel blockModel)
     {
-        if (_blocks.ContainsKey(blockModel))
-        {
-            var blockView = _blocks[blockModel];
-            _blocks.Remove(blockModel);
-        }
+        _levelView.RemoveTile(blockModel.Position);
     }
+
 
     public void Dispose()
     {

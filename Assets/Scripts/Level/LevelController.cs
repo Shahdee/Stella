@@ -108,8 +108,8 @@ public class LevelController : ILevelController, IDisposable
     private void QuickTouch(Vector3 position)
     {
         var worldPosition = Camera.main.ScreenToWorldPoint(UnityEngine.Input.mousePosition);
-        var blockPosition = _levelViewController.TransformPosition(worldPosition);
-
+        var blockPosition = _levelViewController.WorldToCell(worldPosition);
+        
         var block = _levelModel.GetBlock(blockPosition);
         if (block == null)
         {

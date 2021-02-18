@@ -2,7 +2,9 @@ using UnityEngine;
 
 public interface ILevelViewController
 {
-    Vector2Int TransformPosition(Vector3 position);
     Vector3 TransformPosition(Vector2Int position);
+
+    Vector3Int WorldToCell(Vector3 position);
+    
     BlockView GetBlock(IBlockModel block);
 }

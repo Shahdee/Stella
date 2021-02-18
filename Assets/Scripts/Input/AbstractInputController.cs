@@ -6,8 +6,8 @@ using UnityEngine.EventSystems;
 public abstract class AbstractInputController : IUpdatable, IInputController
 {
     public event Action<Vector3> OnQuickTouch;
-    public event Action<Vector2> OnAxisDown;
-    public event Action<Vector2> OnAxisUp;
+    public event Action<Vector2> OnAxisHold;
+    public event Action<Vector2> OnAxisRelease;
     public bool Enabled => _enabled;
     protected const float QuickTouchMaxTimeDelta = 0.5f;
     protected bool _enabled;
@@ -17,21 +17,17 @@ public abstract class AbstractInputController : IUpdatable, IInputController
     {
         _enabled = enabled;
     }
-    
-    public abstract float GetHorizontalAxis();
-    
-    public abstract float GetVerticalAxis();
-    
+
     public void CustomUpdate(float deltaTime)
     {
         if (!_enabled)
             return;
         
-        if (_touchInProgress && EventSystem.current.IsPointerOverGameObject())
-        {
-            _touchInProgress = false;
-            return;
-        }
+        // if (_touchInProgress && EventSystem.current.IsPointerOverGameObject())
+        // {
+        //     _touchInProgress = false;
+        //     return;
+        // }
         
         UpdateInput();
     }
@@ -43,7 +39,6 @@ public abstract class AbstractInputController : IUpdatable, IInputController
         OnQuickTouch?.Invoke(position);
     }
 
-    protected void ArrowDown(Vector2 direction) => OnAxisDown?.Invoke(direction);
-    
-    protected void ArrowUp(Vector2 direction) => OnAxisUp?.Invoke(direction);
+    protected void AxisHold(Vector2 direction) => OnAxisHold?.Invoke(direction);
+    protected void AxisRelease(Vector2 direction) => OnAxisRelease?.Invoke(direction);
 }
