@@ -11,10 +11,13 @@ namespace Level
         public event Action<IBlockModel> OnBlockDestroy;
         public event Action OnAllBlocksDestroy;
 
+        public HashSet<IBlockModel> LevelBlocks => _levelBlocks;
+        
         public int CurrentLevel => _currentLevel;
 
-        private HashSet<IBlockModel> _blockModels;
+        private HashSet<IBlockModel> _levelBlocks;
         private LevelData _levelData;
+        private LevelData _currentLevelData;
         private int _currentLevel;
 
         public LevelModel()
@@ -25,8 +28,20 @@ namespace Level
         public void Initialize(LevelData levelData)
         {
             _levelData = levelData;
-            _blockModels = new HashSet<IBlockModel>();
+            _currentLevelData = _levelData.ShallowCopy();
+            
+            _levelBlocks = new HashSet<IBlockModel>();
             _currentLevel = _levelData.LevelId;
+        }
+
+        public LevelData GetCurrentLevelData()
+        {
+            _currentLevelData.BlockPositions.Clear();
+
+            foreach (var block in _levelBlocks)
+                _currentLevelData.BlockPositions.Add(block.Position);
+
+            return _currentLevelData;
         }
 
         public void AdvanceLevel()
@@ -36,7 +51,7 @@ namespace Level
 
         public void PutBlock(IBlockModel block)
         {
-            _blockModels.Add(block);
+            _levelBlocks.Add(block);
 
             block.OnDestroy += BlockDestroy;
 
@@ -48,34 +63,22 @@ namespace Level
             if (_levelData == null)
                 return;
 
-            foreach (var block in _blockModels)
-            {
+            foreach (var block in _levelBlocks)
                 block.Destroy();
-            }
 
-            _blockModels.Clear();
+            _levelBlocks.Clear();
         }
 
-        public IBlockModel GetBlock(Vector3Int position)
-        {
-            var block = _blockModels.FirstOrDefault(b => b.Position.x == position.x && b.Position.y == position.y);
-            return block;
-        }
-
-        public IBlockModel GetBlock(int x, int y)
-        {
-            var block = _blockModels.FirstOrDefault(b => b.Position.x == x && b.Position.y == y);
-            return block;
-        }
+        public IBlockModel GetBlock(Vector3Int position) => _levelBlocks.FirstOrDefault(b => b.Position.x == position.x && b.Position.y == position.y);
 
         private void BlockDestroy(IBlockModel blockModel)
         {
             blockModel.OnDestroy -= BlockDestroy;
 
-            _blockModels.Remove(blockModel);
+            _levelBlocks.Remove(blockModel);
             OnBlockDestroy?.Invoke(blockModel);
 
-            if (!_blockModels.Any())
+            if (!_levelBlocks.Any())
                 OnAllBlocksDestroy?.Invoke();
         }
     }

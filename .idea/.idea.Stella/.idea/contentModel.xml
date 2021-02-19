@@ -582,10 +582,12 @@
             <e p="CoroutineManager.cs" t="Include" />
             <e p="HelperInstaller.cs" t="Include" />
             <e p="Interfaces" t="Include">
+              <e p="IApplicationPauseListener.cs" t="Include" />
+              <e p="IApplicationQuitListener.cs" t="Include" />
               <e p="ICoroutineManager.cs" t="Include" />
               <e p="IMonoRegisterMediator.cs" t="Include" />
+              <e p="IUpdatable.cs" t="Include" />
             </e>
-            <e p="IUpdatable.cs" t="Include" />
             <e p="MonoMediator.cs" t="Include" />
             <e p="MonoRegisterMediator.cs" t="Include" />
             <e p="Views" t="Include">

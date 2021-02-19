@@ -1,15 +1,9 @@
 using UnityEngine;
 
-
-// TODO have initial json  
-
 namespace Level
 {
     public class LevelDataProvider : ILevelDataProvider
     {
-        private const string LevelBaseName = "Level";
-        private const string LevelFolder = "Levels/";
-        
         private readonly ILevelDataSerializer _levelDataSerializer;
         private readonly ILevelDataSaverLoader _levelDataSaverLoader;
 

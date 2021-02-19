@@ -1,4 +1,5 @@
 using System.IO;
+using Helpers;
 using UnityEngine;
 
 namespace Level
@@ -7,6 +8,7 @@ namespace Level
     {
         private const string LevelBaseName = "Level";
         private const string LevelFolder = "Levels/";
+        private const string JSON = ".json";
         
         private readonly ILevelDataSerializer _levelDataSerializer;
 
@@ -15,17 +17,22 @@ namespace Level
             _levelDataSerializer = levelDataSerializer;
         }
 
-        public void SaveLevel(LevelData levelData, int levelId)
+        public void SaveLevel(LevelData levelData)
         {
             var json = _levelDataSerializer.Serialize(levelData);
             
-            // TODO 
+            var directoryPath = Path.Combine(Application.persistentDataPath, LevelFolder);
+            var levelName = LevelBaseName + levelData.LevelId + JSON;
+            
+            var levelPath = Path.Combine(directoryPath, levelName);
+            
+            File.WriteAllText(levelPath, json);
         }
         
         public string LoadLevel(int levelId)
         {
             var directoryPath = Path.Combine(Application.persistentDataPath, LevelFolder);
-            var levelName = LevelBaseName + levelId + ".json";
+            var levelName = LevelBaseName + levelId + JSON;
             var levelPath = Path.Combine(directoryPath, levelName);
             
             Debug.LogError(directoryPath);
@@ -33,7 +40,7 @@ namespace Level
             
             var json = File.ReadAllText (levelPath);
             
-            Debug.Log("json " + json);
+            // Debug.Log("json " + json);
 
             return json;
         }

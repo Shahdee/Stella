@@ -1,3 +1,4 @@
+using System;
 using Newtonsoft.Json;
 using UnityEngine;
 
@@ -14,15 +15,23 @@ namespace Level
         public string Serialize(LevelData levelData)
         {
             string json = JsonConvert.SerializeObject(levelData);
-            Debug.Log("level to json " + json);
+            // Debug.Log("level to json " + json);
             
             return json;
         }
-
+        
         public LevelData Deserialize(string json)
         {
-            var levelData =  JsonConvert.DeserializeObject<LevelData>(json);
-            return levelData;
+            try
+            {
+                return JsonConvert.DeserializeObject<LevelData>(json);
+            }
+            catch (Exception ex)
+            {
+                Debug.LogException(ex);
+            }
+
+            return null;
         }
     }
 }

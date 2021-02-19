@@ -9,6 +9,8 @@ namespace Level
         event Action<IBlockModel> OnBlockPut;
         event Action<IBlockModel> OnBlockDestroy;
         event Action OnAllBlocksDestroy;
+        
+        HashSet<IBlockModel> LevelBlocks { get; }
 
         int CurrentLevel { get; }
 
@@ -16,6 +18,8 @@ namespace Level
         void PutBlock(IBlockModel blockModel);
         void DestroyAllBlocks();
         IBlockModel GetBlock(Vector3Int position);
+
+        LevelData GetCurrentLevelData();
 
         void AdvanceLevel();
     }

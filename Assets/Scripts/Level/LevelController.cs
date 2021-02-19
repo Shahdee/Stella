@@ -3,15 +3,16 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Characters;
-using Level;
+using Helpers;
 
 // Next 
-    // level data is loaded from json 
+    // move character creation to a separate class
+    // next level is loaded from json   
 
 namespace Level
 {
 
-    public class LevelController : ILevelController, IDisposable
+    public class LevelController : ILevelController, IDisposable, IApplicationQuitListener, IApplicationPauseListener
     {
         public event Action OnLevelComplete;
 
@@ -26,12 +27,14 @@ namespace Level
         private readonly ILevelDataProvider _levelDataProvider;
         private readonly ICharacterFactory _characterFactory;
         private readonly ICharacterDatabase _characterDatabase;
+        private readonly ILevelDataSaverLoader _levelDataSaverLoader;
         private readonly List<ICharacter> _levelCharacters;
 
         private IBlockModelFactory _blockFactory;
         private ILevelViewController _levelViewController;
         private LevelData _levelData;
         private bool _initialize = true;
+        private IApplicationPauseListener _applicationPauseListenerImplementation;
 
         public LevelController(LevelView levelView,
             ILevelModel levelModel,
@@ -39,6 +42,7 @@ namespace Level
             ILevelViewController levelViewController,
             ICharacterFactory characterFactory,
             ICharacterDatabase characterDatabase,
+            ILevelDataSaverLoader levelDataSaverLoader,
             IBlockModelFactory blockFactory,
             IInputController inputController,
             IAudioController audioController)
@@ -52,6 +56,7 @@ namespace Level
             _levelViewController = levelViewController;
             _characterFactory = characterFactory;
             _characterDatabase = characterDatabase;
+            _levelDataSaverLoader = levelDataSaverLoader;
 
             _inputController.OnQuickTouch += QuickTouch;
 
@@ -65,11 +70,14 @@ namespace Level
             if (_initialize)
             {
                 _initialize = false;
+                
+                // TODO init next level differently
 
                 _levelData = _levelDataProvider.LoadLevelData(DefaultLevel);
                 
-                Debug.LogError("Level data " + _levelData.BlockPositions);
-                Debug.LogError("Level id " + _levelData.LevelId);
+                // Debug.LogError("Level data " + _levelData);
+                // Debug.LogError("Level data block positions " + _levelData.BlockPositions);
+                // Debug.LogError("Level id " + _levelData.LevelId);
                 
                 _levelModel.Initialize(_levelData);
 
@@ -93,9 +101,7 @@ namespace Level
                 character.Teleport(position);
             }
             else
-            {
                 Debug.LogError("character wasn't created ");
-            }
         }
 
         public ICharacter GetCurrentCharacter()
@@ -151,6 +157,22 @@ namespace Level
             }
         }
 
+        public void ApplicationQuit()
+        {
+            SaveLevel();
+        }
+        
+        public void ApplicationPause()
+        {
+            SaveLevel();
+        }
+
+        private void SaveLevel()
+        {
+            var data = _levelModel.GetCurrentLevelData();
+            _levelDataSaverLoader.SaveLevel(data);
+        }
+        
         public void Dispose()
         {
             _inputController.OnQuickTouch -= QuickTouch;
