@@ -15,6 +15,7 @@ namespace Block
             Container.BindInstance(_blockSpriteDatabase);
             
             Container.BindInterfacesTo<BlockModelFactory>().AsSingle();
+            Container.BindInterfacesTo<BlockViewStorage>().AsSingle();
             Container.BindInterfacesTo<BlockViewFactory>().AsSingle();
             Container.BindInterfacesTo<BlockSpriteDataProvider>().AsSingle();
         }

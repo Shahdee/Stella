@@ -5,7 +5,7 @@ using UnityEngine;
 public class BlockViewFactory : IBlockViewFactory
 {
     private readonly BlockView _prefab;
-
+    
     public BlockViewFactory(BlockView prefab)
     {
         _prefab = prefab;

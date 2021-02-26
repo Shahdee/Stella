@@ -51,6 +51,8 @@ namespace Level
 
         public void PutBlock(IBlockModel block)
         {
+            // Debug.Log("Put at " + block.Position);
+            
             _levelBlocks.Add(block);
 
             block.OnDestroy += BlockDestroy;

@@ -1,10 +1,15 @@
 using UnityEngine;
+using System.Collections.Generic;
 
 public interface ILevelViewController
 {
-    Vector3 TransformPosition(Vector2Int position);
+    Vector3 TransformPosition(Vector3Int cell);
 
     Vector3Int WorldToCell(Vector3 position);
-    
-    BlockView GetBlock(IBlockModel block);
+
+    IBlockModel GetBlock(Vector3Int position);
+
+    void AddInitialBlocks(List<Vector3Int> blockPositions);
+
+    void InvertLevel(bool invert);
 }

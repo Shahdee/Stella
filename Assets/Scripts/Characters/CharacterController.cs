@@ -6,6 +6,7 @@ namespace Characters
     public class CharacterController : ICharacter, IUpdatable
     {
         public ECharacterType CharacterType => _characterType;
+        public Vector3 Position => _view.transform.position;
 
         private CharacterView _view;
         private ECharacterType _characterType;
@@ -33,7 +34,6 @@ namespace Characters
         }
 
         public void Jump() => _view.Jump();
-
         public void Move(float direction) => _view.Move(direction);
 
         public void Teleport(Vector3 position)

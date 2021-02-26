@@ -548,12 +548,14 @@
             <e p="BlockSpriteDataProvider.cs" t="Include" />
             <e p="BlockView.cs" t="Include" />
             <e p="BlockViewFactory.cs" t="Include" />
+            <e p="BlockViewStorage.cs" t="Include" />
             <e p="EBlockType.cs" t="Include" />
             <e p="Interfaces" t="Include">
               <e p="IBlockModel.cs" t="Include" />
               <e p="IBlockModelFactory.cs" t="Include" />
               <e p="IBlockSpriteDataProvider.cs" t="Include" />
               <e p="IBlockViewFactory.cs" t="Include" />
+              <e p="IBlockViewStorage.cs" t="Include" />
             </e>
           </e>
           <e p="Characters" t="Include">

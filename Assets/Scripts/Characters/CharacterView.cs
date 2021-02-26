@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using Object = System.Object;
 
 public class CharacterView : MonoBehaviour
 {
@@ -7,6 +8,7 @@ public class CharacterView : MonoBehaviour
     [SerializeField] private float JumpSpeed = 5; // unit/sec
     
     [SerializeField] private Rigidbody2D _rigid;
+    [SerializeField] private BoxCollider2D _boxCollider2D;
 
     public Vector2 Velocity => _rigid.velocity;
 

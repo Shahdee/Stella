@@ -20,8 +20,6 @@ namespace Level
         private const int DefaultCharacterXPos = 0;
         private const int DefaultCharacterYPos = 0;
 
-        private readonly LevelView _levelView;
-        private readonly IInputController _inputController;
         private readonly IAudioController _audioController;
         private readonly ILevelModel _levelModel;
         private readonly ILevelDataProvider _levelDataProvider;
@@ -30,35 +28,27 @@ namespace Level
         private readonly ILevelDataSaverLoader _levelDataSaverLoader;
         private readonly List<ICharacter> _levelCharacters;
 
-        private IBlockModelFactory _blockFactory;
         private ILevelViewController _levelViewController;
         private LevelData _levelData;
         private bool _initialize = true;
         private IApplicationPauseListener _applicationPauseListenerImplementation;
 
-        public LevelController(LevelView levelView,
-            ILevelModel levelModel,
-            ILevelDataProvider levelDataProvider,
-            ILevelViewController levelViewController,
-            ICharacterFactory characterFactory,
-            ICharacterDatabase characterDatabase,
-            ILevelDataSaverLoader levelDataSaverLoader,
-            IBlockModelFactory blockFactory,
-            IInputController inputController,
-            IAudioController audioController)
+        public LevelController(ILevelModel levelModel,
+                            ILevelDataProvider levelDataProvider,
+                            ILevelViewController levelViewController,
+                            ICharacterFactory characterFactory,
+                            ICharacterDatabase characterDatabase,
+                            ILevelDataSaverLoader levelDataSaverLoader,
+                            
+                            IAudioController audioController)
         {
-            _levelView = levelView;
             _levelModel = levelModel;
             _levelDataProvider = levelDataProvider;
-            _inputController = inputController;
             _audioController = audioController;
-            _blockFactory = blockFactory;
             _levelViewController = levelViewController;
             _characterFactory = characterFactory;
             _characterDatabase = characterDatabase;
             _levelDataSaverLoader = levelDataSaverLoader;
-
-            _inputController.OnQuickTouch += QuickTouch;
 
             _levelCharacters = new List<ICharacter>();
         }
@@ -75,13 +65,8 @@ namespace Level
 
                 _levelData = _levelDataProvider.LoadLevelData(DefaultLevel);
                 
-                // Debug.LogError("Level data " + _levelData);
-                // Debug.LogError("Level data block positions " + _levelData.BlockPositions);
-                // Debug.LogError("Level id " + _levelData.LevelId);
-                
                 _levelModel.Initialize(_levelData);
-
-                TryAddInitialBlocksToLevel(_levelData.BlockPositions);
+                _levelViewController.AddInitialBlocks(_levelData.BlockPositions);
             }
             else
                 _levelModel.AdvanceLevel();
@@ -97,7 +82,7 @@ namespace Level
                 _levelCharacters.Add(character);
 
                 var position =
-                    _levelViewController.TransformPosition(new Vector2Int(DefaultCharacterXPos, DefaultCharacterYPos));
+                    _levelViewController.TransformPosition(new Vector3Int(DefaultCharacterXPos, DefaultCharacterYPos, 0));
                 character.Teleport(position);
             }
             else
@@ -123,59 +108,21 @@ namespace Level
 
             // TODO remove chars 
         }
-
-        private void QuickTouch(Vector3 position)
-        {
-            var worldPosition = Camera.main.ScreenToWorldPoint(UnityEngine.Input.mousePosition);
-            var blockPosition = _levelViewController.WorldToCell(worldPosition);
-
-            var block = _levelModel.GetBlock(blockPosition);
-            if (block == null)
-            {
-                var blockModel = _blockFactory.CreateBlock(blockPosition);
-                _levelModel.PutBlock(blockModel);
-            }
-            else
-            {
-                block.Destroy();
-            }
-        }
-
-        private void TryAddInitialBlocksToLevel(List<Vector3Int> blockPositions)
-        {
-            if (blockPositions == null || !blockPositions.Any())
-                return;
-            
-            foreach (var position in blockPositions)
-            {
-                var block = _levelModel.GetBlock(position);
-                if (block == null)
-                {
-                    var blockModel = _blockFactory.CreateBlock(position);
-                    _levelModel.PutBlock(blockModel);
-                }
-            }
-        }
-
-        public void ApplicationQuit()
-        {
-            SaveLevel();
-        }
         
-        public void ApplicationPause()
-        {
-            SaveLevel();
-        }
+
+        public void ApplicationQuit() => SaveLevel();
+        
+        public void ApplicationPause() => SaveLevel();
 
         private void SaveLevel()
         {
             var data = _levelModel.GetCurrentLevelData();
             _levelDataSaverLoader.SaveLevel(data);
         }
-        
+
         public void Dispose()
         {
-            _inputController.OnQuickTouch -= QuickTouch;
+            
         }
     }
 }
