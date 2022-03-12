@@ -1,11 +1,13 @@
 using Helpers;
 using UnityEngine;
 
+
 namespace Characters
 {
     public class CharacterController : ICharacter, IUpdatable
     {
         public ECharacterType CharacterType => _characterType;
+        public Transform Body => _view.transform;
         public Vector3 Position => _view.transform.position;
 
         private CharacterView _view;
@@ -22,13 +24,13 @@ namespace Characters
 
         public void CustomUpdate(float deltaTime)
         {
-            var viewportPoint = Camera.main.WorldToViewportPoint(_view.transform.position);
+            var viewportPoint = UnityEngine.Camera.main.WorldToViewportPoint(_view.transform.position);
             
             if (viewportPoint.y < 0)
             {
                 var nextViewportPoint = viewportPoint;
                 nextViewportPoint.y = 1;
-                var worldPoint =  Camera.main.ViewportToWorldPoint(nextViewportPoint);
+                var worldPoint =  UnityEngine.Camera.main.ViewportToWorldPoint(nextViewportPoint);
                 Teleport(worldPoint);
             }
         }

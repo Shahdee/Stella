@@ -1,8 +1,11 @@
+using System;
 using UnityEngine;
 using System.Collections.Generic;
 
 public interface ILevelViewController
 {
+    event Action OnInitialize;
+    
     Vector3 TransformPosition(Vector3Int cell);
 
     Vector3Int WorldToCell(Vector3 position);

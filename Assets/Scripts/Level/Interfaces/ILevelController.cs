@@ -1,12 +1,15 @@
 ﻿using System;
 using Characters;
 
-
-public interface ILevelController
+namespace Level
 {
-    event Action OnLevelComplete;
+    public interface ILevelController
+    {
+        event Action OnLevelComplete;
+        event Action<ICharacter> OnCharacterChange;
 
-    void GenerateLevel();
-    ICharacter GetCurrentCharacter();
-    void ChangeCharacter();
+        void GenerateLevel();
+        ICharacter GetCurrentCharacter();
+        void ChangeCharacter();
+    }
 }

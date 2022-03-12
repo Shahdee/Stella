@@ -1,11 +1,9 @@
-﻿using System;
-using UnityEngine;
-using Object = System.Object;
+﻿using UnityEngine;
 
 public class CharacterView : MonoBehaviour
 {
     [SerializeField] private float MovingSpeed = 5; // unit/sec
-    [SerializeField] private float JumpSpeed = 5; // unit/sec
+    [SerializeField] private float JumpSpeed = 2; // unit/sec
     
     [SerializeField] private Rigidbody2D _rigid;
     [SerializeField] private BoxCollider2D _boxCollider2D;
@@ -23,6 +21,8 @@ public class CharacterView : MonoBehaviour
     {
         // if (_rigid.velocity.y > 0.001f)
         //     return;
+
+        // _jumping = true;
 
         _rigid.AddForce(Vector2.up * JumpSpeed, ForceMode2D.Impulse);
 
@@ -43,13 +43,6 @@ public class CharacterView : MonoBehaviour
         ClampVelocity();
     }
 
-    private void ClampVelocity()
-    {
-        var velocity = _rigid.velocity;
-        velocity.x = Mathf.Clamp(velocity.x, -MovingSpeed,MovingSpeed);
-        SetVelocity(velocity);
-    }
-
     public void SetParent(Transform parent)
     {
         transform.SetParent(parent, false);
@@ -59,5 +52,26 @@ public class CharacterView : MonoBehaviour
     {
         _rigid.velocity = velocity;
     }
+    
+    private void ClampVelocity()
+    {
+        var velocity = _rigid.velocity;
+        velocity.x = Mathf.Clamp(velocity.x, -MovingSpeed,MovingSpeed);
+        SetVelocity(velocity);
+    }
+
+    // private bool _jumping;
+    //
+    // private void Update()
+    // {
+    //     if (_jumping)
+    //     {
+    //         if (_rigid.velocity.y <= 0)
+    //         {
+    //             _jumping = false;
+    //             Debug.LogError("velocity is zero ");
+    //         }
+    //     }
+    // }
 }
 

@@ -14,16 +14,17 @@ namespace Level
         [SerializeField] private List<Vector3Int> _blockPositions;
         [SerializeField] private int _levelId;
         
-        // next 
-        // current level data 
-        // level characters 
-        // initial character position
-        // character type 
-        // exit position 
-        
+
         public LevelData ShallowCopy()
         {
             return (LevelData) MemberwiseClone();
         }
     }
 }
+
+// next 
+// current level data 
+// level characters 
+// initial character position
+// character type 
+// exit position 

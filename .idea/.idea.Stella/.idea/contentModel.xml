@@ -558,6 +558,10 @@
               <e p="IBlockViewStorage.cs" t="Include" />
             </e>
           </e>
+          <e p="Camera" t="Include">
+            <e p="CameraController.cs" t="Include" />
+            <e p="CameraInstaller.cs" t="Include" />
+          </e>
           <e p="Characters" t="Include">
             <e p="CharacterController.cs" t="Include" />
             <e p="CharacterDatabase.cs" t="Include" />
@@ -614,6 +618,7 @@
           </e>
           <e p="Level" t="Include">
             <e p="Interfaces" t="Include">
+              <e p="ILevelCollisionController.cs" t="Include" />
               <e p="ILevelController.cs" t="Include" />
               <e p="ILevelDataProvider.cs" t="Include" />
               <e p="ILevelDataSaverLoader.cs" t="Include" />
@@ -623,6 +628,7 @@
               <e p="ILevelView.cs" t="Include" />
               <e p="ILevelViewController.cs" t="Include" />
             </e>
+            <e p="LevelCollisionController.cs" t="Include" />
             <e p="LevelController.cs" t="Include" />
             <e p="LevelData.cs" t="Include" />
             <e p="LevelDataProvider.cs" t="Include" />

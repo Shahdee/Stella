@@ -10,6 +10,7 @@ namespace Level
             
             Container.BindInterfacesTo<LevelController>().AsSingle();
             Container.BindInterfacesTo<LevelViewController>().AsSingle();
+            Container.BindInterfacesTo<LevelCollisionController>().AsSingle();
             Container.BindInterfacesTo<LevelModel>().AsSingle();
             Container.BindInterfacesTo<LevelInputController>().AsSingle().NonLazy();
 

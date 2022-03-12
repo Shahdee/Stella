@@ -7,6 +7,8 @@ public class BlockView : MonoBehaviour
     
     [SerializeField] private SpriteRenderer _blockSprite;
 
+    [SerializeField] private BoxCollider2D _blockCollider;
+
     private static Color DefaltColor = Color.white;
     
     private IBlockModel _blockModel;
@@ -26,6 +28,16 @@ public class BlockView : MonoBehaviour
     public void SetPosition(Vector3 position)
     {
         transform.position = position;
+    }
+    
+    void OnCollisionExit2D(Collision2D col)
+    {
+        Debug.Log("Exit " + this.name);
+    }
+    
+    void OnCollisionEnter2D(Collision2D col)
+    {
+        Debug.Log("Enter " + this.name);
     }
     
     public void BlockDestroy(IBlockModel model)

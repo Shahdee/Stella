@@ -9,6 +9,8 @@ namespace Level
 
     public class LevelViewController : ILevelViewController, IDisposable
     {
+        public event Action OnInitialize;
+        
         private readonly ILevelModel _levelModel;
         private readonly LevelView _levelView;
         private readonly IBlockViewFactory _blockViewFactory;
@@ -41,6 +43,7 @@ namespace Level
         public Vector3Int WorldToCell(Vector3 position) => _levelView.GetTilePosition(position);
         public IBlockModel GetBlock(Vector3Int position) => _levelModel.GetBlock(position);
 
+        
         public Vector3 TransformPosition(Vector3Int position) => _levelView.GetCellCenterWorld(position);
 
         public void AddInitialBlocks(List<Vector3Int> blockPositions)
@@ -59,6 +62,9 @@ namespace Level
             }
 
             _initialized = true;
+            
+            OnInitialize?.Invoke();
+            
             AddInitialColliders();
         }
 
@@ -72,9 +78,20 @@ namespace Level
                 if (block == null)
                     continue;
 
-                if (HasNeighbours(block))
+                if (IsLowerMost(block))
                     AddCollider(block);
             }
+        }
+
+        private bool IsLowerMost(IBlockModel block)
+        {
+            var upperBlockPosition = block.Position;
+            upperBlockPosition.y += 1;  
+                
+            var lowerBlockPosition = block.Position;
+            lowerBlockPosition.y -= 1;
+            
+            return _levelModel.GetBlock(upperBlockPosition) != null  && _levelModel.GetBlock(lowerBlockPosition) == null;
         }
 
         private bool HasNeighbours(IBlockModel block)
@@ -85,12 +102,12 @@ namespace Level
             var lowerBlockPosition = block.Position;
             lowerBlockPosition.y -= 1;
 
-            return _levelModel.GetBlock(upperBlockPosition) != null || _levelModel.GetBlock(lowerBlockPosition) != null;
+            return _levelModel.GetBlock(upperBlockPosition) != null  || _levelModel.GetBlock(lowerBlockPosition) != null;
         }
 
         private void QuickTouch(Vector3 position)
         {
-            var worldPosition = Camera.main.ScreenToWorldPoint(UnityEngine.Input.mousePosition);
+            var worldPosition = UnityEngine.Camera.main.ScreenToWorldPoint(UnityEngine.Input.mousePosition);
             var cellPosition = WorldToCell(worldPosition);
             
             var block = _levelModel.GetBlock(cellPosition);
@@ -98,16 +115,26 @@ namespace Level
             {
                 var blockModel = _blockModelFactory.CreateBlock(cellPosition);
                 _levelModel.PutBlock(blockModel);
+                
+                var downBlock = GetNeighbour(cellPosition, -1);
+                var downDownBlock = GetNeighbour(cellPosition, -2);
+                
+                if (downBlock != null && downDownBlock == null)
+                    AddCollider(downBlock);
+                
+                var upBlock = GetNeighbour(cellPosition, 1);
+                if (upBlock != null)
+                    RemoveColliderBlock(upBlock);
             }
             else
             {
                 var upperBlock = GetNeighbour(block.Position, 1);
                 var lowerBlock = GetNeighbour(block.Position, -1);
                 
-                block.Destroy();
+                block.Destroy(); // collider destruction ? 
 
-                if (upperBlock != null && !HasNeighbours(upperBlock))
-                    RemoveColliderBlock(upperBlock);
+                if (upperBlock != null && HasNeighbours(upperBlock))
+                    AddCollider(upperBlock);
                 
                 if (lowerBlock != null && !HasNeighbours(lowerBlock))
                     RemoveColliderBlock(lowerBlock);
@@ -122,14 +149,9 @@ namespace Level
                 return;
 
             var upperBlock = GetNeighbour(block.Position, 1);
-            if ( upperBlock != null)
-                AddCollider(upperBlock);
-            
             var lowerBlock = GetNeighbour(block.Position, -1);
-            if (lowerBlock != null)
-                AddCollider(lowerBlock);
             
-            if (upperBlock != null || lowerBlock != null)
+            if (upperBlock != null && lowerBlock == null)
                 AddCollider(block);
         }
 

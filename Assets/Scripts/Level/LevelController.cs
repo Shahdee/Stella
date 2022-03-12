@@ -1,13 +1,12 @@
 ﻿using UnityEngine;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using Characters;
 using Helpers;
 
-// Next 
-    // move character creation to a separate class
+// TODO Next 
     // next level is loaded from json   
+    // moving between scenes 
 
 namespace Level
 {
@@ -15,6 +14,7 @@ namespace Level
     public class LevelController : ILevelController, IDisposable, IApplicationQuitListener, IApplicationPauseListener
     {
         public event Action OnLevelComplete;
+        public event Action<ICharacter> OnCharacterChange;
 
         private const int DefaultLevel = 0;
         private const int DefaultCharacterXPos = 0;
@@ -26,7 +26,9 @@ namespace Level
         private readonly ICharacterFactory _characterFactory;
         private readonly ICharacterDatabase _characterDatabase;
         private readonly ILevelDataSaverLoader _levelDataSaverLoader;
+        
         private readonly List<ICharacter> _levelCharacters;
+        private ICharacter _currentCharacter;
 
         private ILevelViewController _levelViewController;
         private LevelData _levelData;
@@ -71,11 +73,33 @@ namespace Level
             else
                 _levelModel.AdvanceLevel();
 
-            // TODO get/create character using level data  
+            CreateCharacter();
+        }
+
+        public ICharacter GetCurrentCharacter()
+        {
+            return _currentCharacter;
+        }
+
+        public void ChangeCharacter()
+        {
+            // TODO implement 
+            // set next character
+            
+            OnCharacterChange?.Invoke(_currentCharacter);
+        }
+
+        private void CreateCharacter()
+        {
+            // TODO
+            // get/create character using level data
+            // move to a separate class
 
             var character = _characterDatabase.Get(ECharacterType.Stella);
             if (character == null)
                 character = _characterFactory.CreateCharacter(ECharacterType.Stella);
+
+            _currentCharacter = character;
 
             if (character != null)
             {
@@ -87,19 +111,8 @@ namespace Level
             }
             else
                 Debug.LogError("character wasn't created ");
-        }
-
-        public ICharacter GetCurrentCharacter()
-        {
-            if (_levelCharacters.Any())
-                return _levelCharacters[0];
-
-            return null;
-        }
-
-        public void ChangeCharacter()
-        {
-            // TODO implement 
+            
+            OnCharacterChange?.Invoke(_currentCharacter);
         }
 
         private void ClearLevel()

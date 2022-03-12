@@ -3,7 +3,7 @@ using UnityEngine;
 
 
 // TODO LevelInputController should be disabled when we are in menu 
-// TODO jump down 
+// TODO jump down rewrite from axis 
 
 namespace Level
 {
@@ -36,7 +36,7 @@ namespace Level
 
         public void CustomUpdate(float deltaTime)
         {
-             // TODO rewrite from axis 
+           
              
              if (UnityEngine.Input.GetButtonDown("Vertical"))
              {
@@ -58,7 +58,6 @@ namespace Level
              
             if (UnityEngine.Input.GetButtonDown(Jump))
             {
-                // Debug.Log("jump ");
                 var character = _levelController.GetCurrentCharacter();
                 if (character == null)
                     return;
