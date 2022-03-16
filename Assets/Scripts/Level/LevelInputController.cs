@@ -29,6 +29,8 @@ namespace Level
         private void OnAxisHold(Vector2 direction)
         {
             var character = _levelController.GetCurrentCharacter();
+
+            // Debug.Log("hold dir " + direction.x);
             
             if (character != null)
                 character.Move(direction.x);
@@ -38,19 +40,17 @@ namespace Level
         {
             if (UnityEngine.Input.GetButtonDown("Vertical"))
             {    
-                 // Debug.Log("down ");
-                 
                  var character = _levelController.GetCurrentCharacter();
                  if (character == null)
                      return;
                  
                  var cell = _levelViewController.WorldToCell(character.Position);
                     
-                 var lowerNeighbour = cell;
-                 lowerNeighbour.y -= 2;
+                 var downDownCell = cell;
+                 downDownCell.y -= 2;
 
-                 var lowerBlock = _levelViewController.GetBlock(lowerNeighbour);
-                 if (lowerBlock == null)
+                 var downDownBlock = _levelViewController.GetBlock(downDownCell);
+                 if (downDownBlock == null)
                      _levelViewController.InvertLevel(true);
             }    
              

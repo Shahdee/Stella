@@ -2,7 +2,7 @@
 
 public class CharacterView : MonoBehaviour
 {
-    [SerializeField] private float MovingSpeed = 5; // unit/sec
+    [SerializeField] private float MovingSpeed = 2; // unit/sec
     [SerializeField] private float JumpSpeed = 2; // unit/sec
     
     [SerializeField] private Rigidbody2D _rigid;
@@ -31,13 +31,7 @@ public class CharacterView : MonoBehaviour
 
     public void Move(float direction)
     {
-        var force = 0f;
-        
-        if (direction > 0 || direction < 0)
-            force = Mathf.Sign(direction) * MovingSpeed;
-        else
-            force = 0;
-            
+        var force = Mathf.Sign(direction) * MovingSpeed;
         _rigid.AddForce(Vector2.right * force);
 
         ClampVelocity();
