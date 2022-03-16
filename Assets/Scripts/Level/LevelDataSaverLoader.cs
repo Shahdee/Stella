@@ -35,8 +35,8 @@ namespace Level
             var levelName = LevelBaseName + levelId + JSON;
             var levelPath = Path.Combine(directoryPath, levelName);
             
-            Debug.LogError(directoryPath);
-            Debug.LogError(levelName);
+            // Debug.LogError(directoryPath);
+            // Debug.LogError(levelName);
             
             var json = File.ReadAllText (levelPath);
             

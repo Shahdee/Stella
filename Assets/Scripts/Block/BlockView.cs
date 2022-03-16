@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class BlockView : MonoBehaviour
 {
@@ -32,12 +31,12 @@ public class BlockView : MonoBehaviour
     
     void OnCollisionExit2D(Collision2D col)
     {
-        Debug.Log("Exit " + this.name);
+        // Debug.Log("Exit " + this.name);
     }
     
     void OnCollisionEnter2D(Collision2D col)
     {
-        Debug.Log("Enter " + this.name);
+        // Debug.Log("Enter " + this.name);
     }
     
     public void BlockDestroy(IBlockModel model)

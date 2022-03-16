@@ -36,10 +36,8 @@ namespace Level
 
         public void CustomUpdate(float deltaTime)
         {
-           
-             
-             if (UnityEngine.Input.GetButtonDown("Vertical"))
-             {
+            if (UnityEngine.Input.GetButtonDown("Vertical"))
+            {    
                  // Debug.Log("down ");
                  
                  var character = _levelController.GetCurrentCharacter();
@@ -54,7 +52,7 @@ namespace Level
                  var lowerBlock = _levelViewController.GetBlock(lowerNeighbour);
                  if (lowerBlock == null)
                      _levelViewController.InvertLevel(true);
-             }
+            }    
              
             if (UnityEngine.Input.GetButtonDown(Jump))
             {

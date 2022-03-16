@@ -124,20 +124,20 @@ namespace Level
                 
                 var upBlock = GetNeighbour(cellPosition, 1);
                 if (upBlock != null)
-                    RemoveColliderBlock(upBlock);
+                    RemoveCollider(upBlock);
             }
             else
             {
                 var upperBlock = GetNeighbour(block.Position, 1);
                 var lowerBlock = GetNeighbour(block.Position, -1);
                 
-                block.Destroy(); // collider destruction ? 
+                RemoveBlock(block);
 
                 if (upperBlock != null && HasNeighbours(upperBlock))
                     AddCollider(upperBlock);
                 
                 if (lowerBlock != null && !HasNeighbours(lowerBlock))
-                    RemoveColliderBlock(lowerBlock);
+                    RemoveCollider(lowerBlock);
             }
         }
 
@@ -180,8 +180,13 @@ namespace Level
             
             _blockViewStorage.AddBlock(blockModel, blockView);
         }
+        private void RemoveBlock(IBlockModel blockModel)
+        {
+            RemoveCollider(blockModel);
+            blockModel.Destroy();
+        }
 
-        private void RemoveColliderBlock(IBlockModel blockModel)
+        private void RemoveCollider(IBlockModel blockModel)
         {
             var blockView = _blockViewStorage.GetBlock(blockModel);
             if (blockView != null)
@@ -190,6 +195,7 @@ namespace Level
                 _blockViewStorage.RemoveBlock(blockModel);
             }
         }
+
 
         private void BlockDestroy(IBlockModel blockModel)
         {
