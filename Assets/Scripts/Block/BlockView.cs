@@ -9,6 +9,7 @@ public class BlockView : MonoBehaviour
     [SerializeField] private BoxCollider2D _blockCollider;
 
     private static Color DefaltColor = Color.white;
+    // private static Color Tran = Color.white;
     
     private IBlockModel _blockModel;
 
@@ -16,7 +17,7 @@ public class BlockView : MonoBehaviour
     {
         _blockModel = model;
         _blockModel.OnDestroy += BlockDestroy;
-        _blockSprite.color = DefaltColor;
+        // _blockSprite.color = DefaltColor;
     }
 
     public void SetParent(Transform parent)
