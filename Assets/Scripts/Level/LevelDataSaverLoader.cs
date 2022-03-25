@@ -1,5 +1,5 @@
 using System.IO;
-using Helpers;
+using System;
 using UnityEngine;
 
 namespace Level
@@ -9,6 +9,7 @@ namespace Level
         private const string LevelBaseName = "Level";
         private const string LevelFolder = "Levels/";
         private const string JSON = ".json";
+        private const string DefaultLevelJson = "{\"_blockPositions\":[],\"_levelId\":0}";
         
         private readonly ILevelDataSerializer _levelDataSerializer;
 
@@ -37,10 +38,23 @@ namespace Level
             
             Debug.LogError(directoryPath);
             Debug.LogError(levelName);
-            
-            var json = File.ReadAllText (levelPath);
-            
-            Debug.Log("json " + json);
+
+            var json = DefaultLevelJson;
+
+            try
+            {
+                json = File.ReadAllText(levelPath);
+            }
+            catch (FileNotFoundException)
+            {
+                File.WriteAllText(levelPath, DefaultLevelJson);
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+
+            // Debug.Log("json " + json);
 
             return json;
         }
