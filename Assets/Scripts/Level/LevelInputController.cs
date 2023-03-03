@@ -7,13 +7,16 @@ using UnityEngine;
 
 namespace Level
 {
-    public class LevelInputController : ILevelInputController, IUpdatable
+    public class LevelInputController : ILevelInputController, IUpdatable, IFixedUpdatable
     {
         private const string Jump = "Jump";
         
         private readonly ILevelController _levelController;
         private readonly ILevelViewController _levelViewController;
         private readonly IInputController _inputController;
+
+        private bool _holding = false;
+        private Vector2 _movingDirection;
 
         public LevelInputController(ILevelController levelController, 
                                     ILevelViewController levelViewController,
@@ -24,23 +27,27 @@ namespace Level
             _inputController = inputController;
 
             _inputController.OnAxisHold += OnAxisHold;
+            _inputController.OnAxisRelease += OnAxisRelease;
         }
 
         private void OnAxisHold(Vector2 direction)
         {
-            var character = _levelController.GetCurrentCharacter();
+            _holding = true;
+            _movingDirection = direction;
+            // Debug.Log("hold " + direction.x);
+        }
 
-            // Debug.Log("hold dir " + direction.x);
-            
-            if (character != null)
-                character.Move(direction.x);
+        private void OnAxisRelease(Vector2 direction)
+        {
+            _holding = false;
+            // Debug.LogError("release " + direction.x);
         }
 
         public void CustomUpdate(float deltaTime)
         {
             if (UnityEngine.Input.GetButtonDown("Vertical"))
-            {    
-                 var character = _levelController.GetCurrentCharacter();
+            {
+                var character = _levelController.CurrentCharacter;
                  if (character == null)
                      return;
                  
@@ -56,12 +63,23 @@ namespace Level
              
             if (UnityEngine.Input.GetButtonDown(Jump))
             {
-                var character = _levelController.GetCurrentCharacter();
+                var character = _levelController.CurrentCharacter;
                 if (character == null)
                     return;
                 
                 character.Jump();
             }
-        } 
+        }
+
+        public void CustomFixedUpdate(float fixedDeltaTime)
+        {
+            // // Debug.Log("f");
+            var character = _levelController.CurrentCharacter;
+            if (character != null && _holding)
+            {
+                Debug.LogError("fupd " + _movingDirection.x);
+                character.Move(_movingDirection.x);
+            }
+        }
     }
 }

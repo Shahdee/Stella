@@ -591,6 +591,7 @@
               <e p="IApplicationPauseListener.cs" t="Include" />
               <e p="IApplicationQuitListener.cs" t="Include" />
               <e p="ICoroutineManager.cs" t="Include" />
+              <e p="IFixedUpdatable.cs" t="Include" />
               <e p="IMonoRegisterMediator.cs" t="Include" />
               <e p="IUpdatable.cs" t="Include" />
             </e>

@@ -9,7 +9,7 @@ namespace Level
         private const string LevelBaseName = "Level";
         private const string LevelFolder = "Levels/";
         private const string JSON = ".json";
-        private const string DefaultLevelJson = "{\"_blockPositions\":[],\"_levelId\":0}";
+        private const string DefaultLevelJson = "{\"_blockPositions\":[],\"_levelId\":0}"; // TODO move it to another class ? 
         
         private readonly ILevelDataSerializer _levelDataSerializer;
 

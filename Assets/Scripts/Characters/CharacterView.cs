@@ -4,12 +4,15 @@ public class CharacterView : MonoBehaviour
 {
     [SerializeField] private float MovingSpeed = 2; // unit/sec
     [SerializeField] private float JumpSpeed = 2; // unit/sec
+    [SerializeField] private bool JumpThroughForce = true;
+    [SerializeField] private float GravityFallMultiplier = 2.5f;
     
     [SerializeField] private Rigidbody2D _rigid;
     [SerializeField] private BoxCollider2D _boxCollider2D;
 
     public Vector2 Velocity => _rigid.velocity;
 
+    private Vector2 _velocity;
     private bool _moving;
     
     public void SetPosition(Vector3 position)
@@ -19,21 +22,21 @@ public class CharacterView : MonoBehaviour
 
     public void Jump()
     {
-        // if (_rigid.velocity.y > 0.001f)
-        //     return;
+        _rigid.velocity = Vector2.up * JumpSpeed;
+    }
 
-        // _jumping = true;
-
-        _rigid.AddForce(Vector2.up * JumpSpeed, ForceMode2D.Impulse);
-
-        // ClampVelocity();
+    public void ResolveJumpFalling(float fixedDeltaTime)
+    {
+        if (_rigid.velocity.y < 0)
+        {
+            _rigid.velocity += Vector2.up * (Physics2D.gravity.y * (GravityFallMultiplier - 1) * Time.fixedDeltaTime);
+        }
     }
 
     public void Move(float direction)
     {
         var force = Mathf.Sign(direction) * MovingSpeed;
-        _rigid.AddForce(Vector2.right * force);
-
+        _rigid.AddForce(Vector2.right * force, ForceMode2D.Impulse);
         ClampVelocity();
     }
 
@@ -49,23 +52,12 @@ public class CharacterView : MonoBehaviour
     
     private void ClampVelocity()
     {
-        var velocity = _rigid.velocity;
-        velocity.x = Mathf.Clamp(velocity.x, -MovingSpeed,MovingSpeed);
-        SetVelocity(velocity);
+        // Debug.Log("clamp v " + _rigid.velocity);
+        _velocity = _rigid.velocity;
+        _velocity.x = Mathf.Clamp(_velocity.x, -MovingSpeed,MovingSpeed);
+        // Debug.Log("clamp v " + _velocity.x);
+        SetVelocity(_velocity);
     }
-
-    // private bool _jumping;
-    //
-    // private void Update()
-    // {
-    //     if (_jumping)
-    //     {
-    //         if (_rigid.velocity.y <= 0)
-    //         {
-    //             _jumping = false;
-    //             Debug.LogError("velocity is zero ");
-    //         }
-    //     }
-    // }
+    
 }
 

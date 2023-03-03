@@ -9,7 +9,7 @@ namespace Level
         event Action<ICharacter> OnCharacterChange;
 
         void GenerateLevel();
-        ICharacter GetCurrentCharacter();
+        ICharacter CurrentCharacter { get; }
         void ChangeCharacter();
     }
 }

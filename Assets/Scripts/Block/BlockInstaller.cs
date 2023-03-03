@@ -17,7 +17,7 @@ namespace Block
             Container.BindInterfacesTo<BlockModelFactory>().AsSingle();
             Container.BindInterfacesTo<BlockViewStorage>().AsSingle();
             Container.BindInterfacesTo<BlockViewFactory>().AsSingle();
-            Container.BindInterfacesTo<BlockSpriteDataProvider>().AsSingle();
+            // Container.BindInterfacesTo<BlockSpriteDataProvider>().AsSingle();
         }
     }
 }

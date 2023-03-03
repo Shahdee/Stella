@@ -6,6 +6,8 @@ namespace Helpers
     public class MonoMediator : Zenject.IInitializable
     {
         private readonly List<IUpdatable> _updatables;
+        private readonly List<IFixedUpdatable> _fixedUpdatables;
+        
         private readonly List<IApplicationQuitListener> _applicationQuitListeners;
         private readonly List<IApplicationPauseListener> _applicationPauseListeners;
 
@@ -13,10 +15,12 @@ namespace Helpers
         
         
         public MonoMediator(List<IUpdatable> updatables,
+                            List<IFixedUpdatable> fixedUpdatables,
                             List<IApplicationQuitListener> applicationQuitListeners,
                             List<IApplicationPauseListener> applicationPauseListeners)
         {
             _updatables = updatables;
+            _fixedUpdatables = fixedUpdatables; 
             _applicationQuitListeners = applicationQuitListeners;
             _applicationPauseListeners = applicationPauseListeners;
         }
@@ -27,6 +31,7 @@ namespace Helpers
             _view = gameObject.AddComponent<MonoManagerView>();
 
             _view.OnUpdate += PerformUpdate;
+            _view.OnFixedUpdate += PerformFixedUpdate;
             _view.OnQuit += ApplicationQuit;
             _view.OnPause += ApplicationPause;
         }
@@ -36,6 +41,14 @@ namespace Helpers
             foreach (var listeners in _updatables)
             {
                 listeners.CustomUpdate(deltaTime);
+            }
+        }
+        
+        private void PerformFixedUpdate(float fixedDeltaTime)
+        {
+            foreach (var listeners in _fixedUpdatables)
+            {
+                listeners.CustomFixedUpdate(fixedDeltaTime);
             }
         }
 

@@ -98,8 +98,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 64ca8a909ca140b3913fbe6390c4abbf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MovingSpeed: 10
-  JumpSpeed: 10
+  MovingSpeed: 9
+  JumpSpeed: 12
+  JumpThroughForce: 1
+  GravityFallMultiplier: 3
   _rigid: {fileID: 6549384175245997084}
   _boxCollider2D: {fileID: 2852445020672583660}
 --- !u!50 &6549384175245997084
@@ -117,7 +119,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 3
   m_AngularDrag: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 2
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1

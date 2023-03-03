@@ -29,6 +29,7 @@ namespace Characters
             var character = new CharacterController(characterType, view);
             
             _monoRegisterMediator.Register(character);
+            _monoRegisterMediator.RegisterFixed(character);
 
             return character;
         }

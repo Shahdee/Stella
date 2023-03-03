@@ -15,7 +15,8 @@ namespace Level
     {
         public event Action OnLevelComplete;
         public event Action<ICharacter> OnCharacterChange;
-
+        public ICharacter CurrentCharacter => _currentCharacter;
+        
         private const int DefaultLevel = 0;
         private const int DefaultCharacterXPos = 0;
         private const int DefaultCharacterYPos = 0;
@@ -74,11 +75,6 @@ namespace Level
                 _levelModel.AdvanceLevel();
 
             CreateCharacter();
-        }
-
-        public ICharacter GetCurrentCharacter()
-        {
-            return _currentCharacter;
         }
 
         public void ChangeCharacter()

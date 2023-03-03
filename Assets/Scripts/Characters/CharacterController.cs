@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Characters
 {
-    public class CharacterController : ICharacter, IUpdatable
+    public class CharacterController : ICharacter, IUpdatable, IFixedUpdatable
     {
         public ECharacterType CharacterType => _characterType;
         public Transform Body => _view.transform;
@@ -22,17 +22,16 @@ namespace Characters
             _characterType = characterType;
         }
 
+         
         public void CustomUpdate(float deltaTime)
         {
-            var viewportPoint = UnityEngine.Camera.main.WorldToViewportPoint(_view.transform.position);
             
-            if (viewportPoint.y < 0)
-            {
-                var nextViewportPoint = viewportPoint;
-                nextViewportPoint.y = 1;
-                var worldPoint =  UnityEngine.Camera.main.ViewportToWorldPoint(nextViewportPoint);
-                Teleport(worldPoint);
-            }
+        }
+
+        public void CustomFixedUpdate(float fixedDeltaTime)
+        {
+            ResolveJumpFalling(fixedDeltaTime);
+            ResolveFallingUnderTheFloor();
         }
 
         public void Jump() => _view.Jump();
@@ -43,5 +42,21 @@ namespace Characters
             _view.SetPosition(position);
             _view.SetVelocity(Vector2.zero);
         }
+
+        private void ResolveJumpFalling(float fixedDeltaTime) => _view.ResolveJumpFalling(fixedDeltaTime);
+
+        private void ResolveFallingUnderTheFloor()
+        {
+            var viewportPoint = UnityEngine.Camera.main.WorldToViewportPoint(_view.transform.position);
+
+            if (viewportPoint.y < 0)
+            {
+                var nextViewportPoint = viewportPoint;
+                nextViewportPoint.y = 1;
+                var worldPoint =  UnityEngine.Camera.main.ViewportToWorldPoint(nextViewportPoint);
+                Teleport(worldPoint);
+            }
+        }
+
     }
 }
